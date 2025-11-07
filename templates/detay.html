@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ sehir.ad }} - Tarihçe</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #8b0000;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+        main {
+            max-width: 900px;
+            background: white;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #8b0000;
+            border-bottom: 2px solid #8b0000;
+            padding-bottom: 6px;
+        }
+        p {
+            line-height: 1.7;
+            color: #333;
+            text-align: justify;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li::before {
+            content: "• ";
+            color: #8b0000;
+            font-weight: bold;
+        }
+        .geri {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background: #8b0000;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .geri:hover {
+            background: #a00000;
+        }
+    </style>
+</head>
+<body>
+    <header>{{ sehir.ad }} - Tarihçe</header>
+
+    <main>
+        <h2>📜 Şehrin Tarihi</h2>
+        <p>{{ sehir.tarih }}</p>
+
+        {% if sehir.medeniyetler %}
+        <h2>🏺 Bu Topraklarda Yaşamış Medeniyetler</h2>
+        <ul>
+            {% for med in sehir.medeniyetler %}
+            <li>{{ med }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if sehir.onemli_olaylar %}
+        <h2>⚔️ Önemli Tarihî Olaylar</h2>
+        <ul>
+            {% for olay in sehir.onemli_olaylar %}
+            <li>{{ olay }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <a href="/" class="geri">← Ana Sayfaya Dön</a>
+    </main>
+</body>
+</html>
