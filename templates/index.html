@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkiye Haritası - Tarihî Şehirler</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f3f3;
+        }
+        header {
+            background-color: #8b0000;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+        #map {
+            width: 100%;
+            height: 90vh;
+        }
+        .leaflet-popup-content a {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 5px 10px;
+            background-color: #8b0000;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+        .leaflet-popup-content a:hover {
+            background-color: #a00000;
+        }
+    </style>
+</head>
+<body>
+    <header>🇹🇷 Türkiye Haritası - Tarihî Şehirler</header>
+    <div id="map"></div>
+
+    <script>
+        const map = L.map('map').setView([39.0, 35.0], 6);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        fetch('/static/sehirler.json')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(sehir => {
+                    const marker = L.marker(sehir.konum).addTo(map);
+                    const popupContent = `
+                        <strong>${sehir.ad}</strong><br>
+                        <a href="/detay/${encodeURIComponent(sehir.ad)}">Detaya Git</a>
+                    `;
+                    marker.bindPopup(popupContent);
+                });
+            })
+            .catch(err => console.error("Veri yüklenirken hata oluştu:", err));
+    </script>
+</body>
+</html>
